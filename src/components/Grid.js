@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDataGrid from 'react-data-grid';
 import {Toolbar, Data} from 'react-data-grid/addons';
 import update from 'react-addons-update';
-
+import '/home/vitor/projects/react-material-admin-template-master/node_modules/react-data-grid/dist/react-data-grid.css';
 import ReactIntl from 'react-intl';
 import {IntlMixin, IntlProvider, FormattedMessage, FormattedNumber, FormattedDate} from 'react-intl';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -94,67 +94,89 @@ var columns = [
   {
     key: 'id',
     name: 'ID',
-    width: 40
+    width: 40,
+    filterable: true
+
   },
   {
     key: 'data_emissao',
     name: 'Data Emissão',
     editable: true,
+    filterable: true
+
   },
   {
     key: 'classificacao',
     name: 'Classificação',
-    editable: true
+    editable: true,
+    filterable: true
   },
   {
     key: 'fornecedor',
     name: 'Fornecedor',
-    editable: true
+    editable: true,
+    filterable: true
   },
   {
     key: 'condicao',
     name: 'Condição',
-    editable: true
+    editable: true,
+    filterable: true
+
   },
   {
     key: 'doc',
     name: 'Doc',
-    editable: true
+    editable: true,
+    filterable: true
+
   },
   {
     key: 'cheque',
     name: 'Cheque',
-    editable: true
+    editable: true,
+    filterable: true
+
   },
   {
     key: 'parcela',
     name: 'Parcela',
-    editable: true
+    editable: true,
+    filterable: true
+
   },
   {
     key: 'valor',
     name: 'Valor',
     editable: true,
-    formatter: PercentCompleteFormatter
+    formatter: PercentCompleteFormatter,
+    filterable: true
+
 
   },
   {
     key: 'data_vencimento',
     name: 'Data Vencimento',
     editable: true,
-    formatter: DateFormatter
+    formatter: DateFormatter,
+    filterable: true
+
 
   },
   {
     key: 'data_baixa',
     name: 'Data Baixa',
     editable: true,
-    formatter: DateFormatter
+    formatter: DateFormatter,
+    filterable: true
+
   },
   {
     key: 'conta',
     name: 'Conta',
-    editable: true
+    editable: true,
+    filterable: true
+
   }
 ];
 
@@ -162,7 +184,7 @@ var columns = [
 var Example = React.createClass({
 
   getInitialState: function () {
-    return {rows: createRows(5)}
+    return {rows: createRows(5), filters: {}}
   },
 
   rowGetter: function (rowIdx) {
@@ -176,7 +198,15 @@ var Example = React.createClass({
     this.setState({rows: rows});
     console.log(e);
   },
-
+  handleFilterChange: function (filter) {
+    var newFilters = Object.assign({}, this.state.filters);
+    if (filter.filterTerm) {
+      newFilters[filter.column.key] = filter;
+    } else {
+      delete newFilters[filter.column.key];
+    }
+    this.setState({filters: newFilters});
+  },
   handleAddRow: function (e) {
     var newRow = {
       id: this.state.rows.length + 1,
@@ -191,6 +221,11 @@ var Example = React.createClass({
     var rows = update(this.state.rows, {$push: [newRow]});
     this.setState({rows: rows});
   },
+  onClearFilters: function () {
+    //all filters removed
+    this.setState({filters: {}});
+  },
+
   render: function () {
     return (
       <IntlProvider locale="en">
@@ -200,6 +235,9 @@ var Example = React.createClass({
             columns={columns}
             rowGetter={this.rowGetter}
             rowsCount={this.state.rows.length}
+            onAddFilter={this.handleFilterChange}
+            onClearFilters={this.onClearFilters}
+
             minHeight={650}
             onRowUpdated={this.handleRowUpdated}/>
 

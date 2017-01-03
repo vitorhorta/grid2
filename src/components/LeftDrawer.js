@@ -28,7 +28,7 @@ const LeftDrawer = (props) => {
       div: {
         padding: '15px 0 20px 15px',
         backgroundImage:  'url(' + require('../images/material_bg.png') + ')',
-        height: 45
+        height: 80
       },
       icon: {
         float: 'left',

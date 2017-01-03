@@ -44,6 +44,7 @@ const TablePage = () => {
   return (
     <PageBase title="Despesas"
              >
+      {/*<div>*/}
         <Example/>
 
         {/*<FloatingActionButton style={styles.floatingActionButton} iconStyle={{backgroundColor: pink500}}>*/}
@@ -81,6 +82,7 @@ const TablePage = () => {
           {/*)}*/}
         {/*</TableBody>*/}
       {/*</Table>*/}
+      {/*</div>*/}
     </PageBase>
   );
 };
